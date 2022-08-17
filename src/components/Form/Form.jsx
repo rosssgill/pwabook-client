@@ -5,7 +5,6 @@ import { useDispatch, useSelector } from 'react-redux';
 
 import useStyles from './styles';
 import { createPost, updatePost } from '../../actions/posts.js';
-import * as api from '../../api';
 
 const defaultPostData = {
   title: '',
@@ -36,7 +35,6 @@ function Form({ currentId, setCurrentId }) {
 
     if (currentId === 0) {
       dispatch(createPost({ ...postData, name: user?.result?.name }));
-      api.sendPush();
     } else {
       dispatch(updatePost(currentId, { ...postData, name: user?.result?.name }));
     }
