@@ -37,9 +37,9 @@
     "workbox-streams": "^6.5.4"
   },
   "scripts": {
-    "start": "react-scripts start",
-    "build": "react-scripts build",
-    "buildandserve": "react-scripts build && serve -s build",
+    "start": "react-scripts --legacy-peer-deps start",
+    "build": "react-scripts --legacy-peer-deps build",
+    "buildandserve": "react-scripts --legacy-peer-deps build && serve -s build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
     "lint": "eslint --fix --ext .js,.jsx ."
