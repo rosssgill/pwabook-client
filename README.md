@@ -1,0 +1,2 @@
+# About
+This repository contains all the frontend code for my Final Year Project, [PWABook](https://github.com/rosssgill/PWABook). This project was built using react and is a [progressive web application](https://web.dev/what-are-pwas/), making it installable and including features like precaching, dynamic caching, offline sync and push notifications. 
