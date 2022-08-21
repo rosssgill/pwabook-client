@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const API = axios.create({ baseURL: 'https://rosspwabook.herokuapp.com/' });
+const API = axios.create({ baseURL: 'http://localhost:5000' });
 
 // Authorization: <type> <credential> W3C pattern
 API.interceptors.request.use((req) => {
@@ -19,5 +19,4 @@ export const likePost = (id) => API.patch(`/posts/${id}/likePost`);
 export const signIn = (formData) => API.post('/users/signin', formData);
 export const signUp = (formData) => API.post('/users/signup', formData);
 
-export const sendPush = () => API.post('/push');
 export const subscribe = (subscription) => API.post('/push/subscribe', subscription);
