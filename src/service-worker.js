@@ -68,7 +68,7 @@ const serverUrl = process.env.REACT_APP_SERVER_URL;
 
 // Dynamically cache posts
 registerRoute(
-  ({ url }) => `https://${url.host}/posts` === serverUrl,
+  ({ url }) => `https://${url.host}` === serverUrl,
   new NetworkFirst({
     cacheName: 'posts',
   }),
@@ -80,7 +80,7 @@ const bgSyncPluginPost = new BackgroundSyncPlugin('queue-POST', {
 });
 
 registerRoute(
-  ({ url }) => `https://${url.host}/posts` === serverUrl,
+  ({ url }) => `https://${url.host}` === serverUrl,
   new NetworkOnly({
     plugins: [bgSyncPluginPost],
   }),
@@ -93,7 +93,7 @@ const bgSyncPluginPatch = new BackgroundSyncPlugin('queue-PATCH', {
 });
 
 registerRoute(
-  ({ url }) => `https://${url.host}/posts` === serverUrl,
+  ({ url }) => `https://${url.host}` === serverUrl,
   new NetworkOnly({
     plugins: [bgSyncPluginPatch],
   }),
@@ -106,7 +106,7 @@ const bgSyncPluginDelete = new BackgroundSyncPlugin('queue-DELETE', {
 });
 
 registerRoute(
-  ({ url }) => `https://${url.host}/posts` === serverUrl,
+  ({ url }) => `https://${url.host}` === serverUrl,
   new NetworkOnly({
     plugins: [bgSyncPluginDelete],
   }),
