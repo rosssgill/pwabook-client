@@ -66,7 +66,7 @@ self.addEventListener('message', (event) => {
 // Any other custom service worker logic can go here.
 const serverUrl = process.env.REACT_APP_SERVER_URL;
 
-// Cache any GET requests to the server
+// Dynamically cache posts
 registerRoute(
   ({ url }) => `https://${url.host}/posts` === serverUrl,
   new NetworkFirst({
