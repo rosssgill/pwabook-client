@@ -1,10 +1,10 @@
 /* eslint-disable react/no-unstable-nested-components */
 import React from 'react';
-import { Card, CardActions, CardContent, CardMedia, Button, Typography } from '@material-ui/core';
-import ThumbUpAltIcon from '@material-ui/icons/ThumbUpAlt';
-import ThumbUpAltOutlined from '@material-ui/icons/ThumbUpAltOutlined';
-import DeleteIcon from '@material-ui/icons/Delete';
-import MoreHorizIcon from '@material-ui/icons/MoreHoriz';
+import { Card, CardActions, CardContent, CardMedia, Button, Typography } from '@mui/material';
+import ThumbUpAltIcon from '@mui/icons-material/ThumbUpAlt';
+import ThumbUpAltOutlined from '@mui/icons-material/ThumbUpAltOutlined';
+import DeleteIcon from '@mui/icons-material/Delete';
+import MoreHorizIcon from '@mui/icons-material/MoreHoriz';
 import moment from 'moment';
 import { useDispatch } from 'react-redux';
 

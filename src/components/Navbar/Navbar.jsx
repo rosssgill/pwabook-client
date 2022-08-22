@@ -1,26 +1,55 @@
 import React, { useState, useEffect } from 'react';
-import { AppBar, Typography, Toolbar, Avatar, Button } from '@material-ui/core';
+import {
+  AppBar,
+  Box,
+  Toolbar,
+  IconButton,
+  Typography,
+  Menu,
+  MenuItem,
+  Container,
+  Avatar,
+  Button,
+  Tooltip,
+} from '@mui/material';
+import MenuIcon from '@mui/icons-material/Menu';
+import PeopleAlt from '@mui/icons-material/PeopleAlt';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import decode from 'jwt-decode';
 
-import useStyles from './styles';
-import logo from '../../images/blog.png';
 import urlBase64ToUint8Array from '../../util';
 import * as api from '../../api';
 
 function Navbar() {
-  const classes = useStyles();
   const navigate = useNavigate();
   const location = useLocation();
   const dispatch = useDispatch();
 
   const [user, setUser] = useState(JSON.parse(localStorage.getItem('profile')));
+  const [anchorElNav, setAnchorElNav] = useState(null);
+  const [anchorElUser, setAnchorElUser] = useState(null);
+
+  const handleOpenNavMenu = (event) => {
+    setAnchorElNav(event.currentTarget);
+  };
+  const handleOpenUserMenu = (event) => {
+    setAnchorElUser(event.currentTarget);
+  };
+
+  const handleCloseNavMenu = () => {
+    setAnchorElNav(null);
+  };
+
+  const handleCloseUserMenu = () => {
+    setAnchorElUser(null);
+  };
 
   const logout = () => {
     dispatch({ type: 'LOGOUT' });
-    navigate('/');
     setUser(null);
+    setAnchorElUser(null);
+    navigate('/');
   };
 
   const displayConfirmNotification = () => {
@@ -95,35 +124,118 @@ function Navbar() {
   }, [location]);
 
   return (
-    <AppBar className={classes.appBar} position="static" color="inherit">
-      <div className={classes.brandContainer}>
-        <Typography component={Link} to="/" className={classes.heading} variant="h2" align="center">
-          PWABook
-        </Typography>
-        <img className={classes.image} src={logo} alt="PWABook" height="60" />
-      </div>
-      <Button variant="contained" onClick={configurePushSubscription}>
-        Get Push Notifications
-      </Button>
-      <Toolbar className={classes.toolbar}>
-        {user ? (
-          <div className={classes.profile}>
-            <Avatar className={classes.purple} alt={user?.result.name} src={user?.result.picture}>
-              {user?.result.name.charAt(0)}
-            </Avatar>
-            <Typography className={classes.userName} variant="h6">
-              {user?.result.name}
-            </Typography>
-            <Button variant="contained" className={classes.logout} colour="secondary" onClick={logout}>
-              Logout
+    <AppBar position="static">
+      <Container maxWidth="xl">
+        <Toolbar disableGutters>
+          <PeopleAlt sx={{ display: { xs: 'none', md: 'flex' }, mr: 1 }} />
+          <Typography
+            variant="h6"
+            noWrap
+            component="a"
+            href="/"
+            sx={{
+              mr: 2,
+              display: { xs: 'none', md: 'flex' },
+              fontWeight: 700,
+              color: 'inherit',
+              textDecoration: 'none',
+            }}
+          >
+            PWABook
+          </Typography>
+
+          <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}>
+            <IconButton
+              size="large"
+              aria-label="account of current user"
+              aria-controls="menu-appbar"
+              aria-haspopup="true"
+              onClick={handleOpenNavMenu}
+              color="inherit"
+            >
+              <MenuIcon />
+            </IconButton>
+            <Menu
+              id="menu-appbar"
+              anchorEl={anchorElNav}
+              anchorOrigin={{
+                vertical: 'bottom',
+                horizontal: 'left',
+              }}
+              keepMounted
+              transformOrigin={{
+                vertical: 'top',
+                horizontal: 'left',
+              }}
+              open={Boolean(anchorElNav)}
+              onClose={handleCloseNavMenu}
+              sx={{
+                display: { xs: 'block', md: 'none' },
+              }}
+            >
+              <MenuItem key="Subscribe" onClick={configurePushSubscription}>
+                <Typography textAlign="center">Subscribe</Typography>
+              </MenuItem>
+            </Menu>
+          </Box>
+          <PeopleAlt sx={{ display: { xs: 'flex', md: 'none' }, mr: 1 }} />
+          <Typography
+            variant="h5"
+            noWrap
+            component="a"
+            href=""
+            sx={{
+              mr: 2,
+              display: { xs: 'flex', md: 'none' },
+              flexGrow: 1,
+              fontFamily: 'monospace',
+              fontWeight: 700,
+              color: 'inherit',
+              textDecoration: 'none',
+            }}
+          >
+            PWABook
+          </Typography>
+          <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
+            <Button onClick={configurePushSubscription} sx={{ my: 2, color: 'white', display: 'block', outline: true }}>
+              Subscribe To Push notifications
             </Button>
-          </div>
-        ) : (
-          <Button component={Link} to="/auth" variant="contained" className={classes.logout} colour="primary">
-            Log In
-          </Button>
-        )}
-      </Toolbar>
+          </Box>
+          <Box sx={{ flexGrow: 0 }}>
+            <Tooltip title="Open settings">
+              <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
+                <Avatar alt={user?.result.name} src={user?.result.picture} />
+              </IconButton>
+            </Tooltip>
+            <Menu
+              sx={{ mt: '45px' }}
+              id="menu-appbar"
+              anchorEl={anchorElUser}
+              anchorOrigin={{
+                vertical: 'top',
+                horizontal: 'right',
+              }}
+              keepMounted
+              transformOrigin={{
+                vertical: 'top',
+                horizontal: 'right',
+              }}
+              open={Boolean(anchorElUser)}
+              onClose={handleCloseUserMenu}
+            >
+              {user ? (
+                <MenuItem key="Logout" onClick={logout}>
+                  <Typography textAlign="center">Logout</Typography>
+                </MenuItem>
+              ) : (
+                <MenuItem key="Login" component={Link} to="/auth" onClick={handleCloseUserMenu}>
+                  <Typography textAlign="center">Login</Typography>
+                </MenuItem>
+              )}
+            </Menu>
+          </Box>
+        </Toolbar>
+      </Container>
     </AppBar>
   );
 }
